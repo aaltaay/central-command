@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Terminal, Activity, Globe, ShieldAlert, LogOut, Code, Play, CheckCircle } from 'lucide-react';
+import { Terminal, Activity, Globe, ShieldAlert, LogOut, Code, Play } from 'lucide-react';
 import './index.css';
 
 // Mock simple auth
