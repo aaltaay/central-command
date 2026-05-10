@@ -1,7 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import { exec } from 'child_process';
-import path from 'path';
 import Parser from 'rss-parser';
 
 const app = express();
@@ -10,9 +8,6 @@ const parser = new Parser();
 
 app.use(cors());
 app.use(express.json());
-
-// Path to the user's skills directory
-const SKILLS_DIR = 'C:\\Users\\aalta\\Antigravity Skills';
 
 // Premium News Sources for Economics & Politics
 const RSS_FEEDS = [
@@ -50,7 +45,7 @@ app.get('/api/news', async (req, res) => {
     const flatResults = results.flat().sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
     
     res.json({ articles: flatResults });
-  } catch (error) {
+  } catch {
     res.status(500).json({ error: 'Failed to fetch news' });
   }
 });

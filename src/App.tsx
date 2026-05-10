@@ -6,16 +6,10 @@ import './index.css';
 const AUTH_KEY = 'central_command_auth';
 
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => localStorage.getItem(AUTH_KEY) === 'true');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    if (localStorage.getItem(AUTH_KEY) === 'true') {
-      setIsAuthenticated(true);
-    }
-  }, []);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -130,7 +124,7 @@ function ArsenalWidget() {
         setOutput(prev => [...prev, `[SUCCESS] ${data.message}`]);
         setExecuting(null);
       }, 1500); // Simulate some execution time
-    } catch (e) {
+    } catch {
       setOutput(prev => [...prev, `[ERROR] Failed to execute ${id}`]);
       setExecuting(null);
     }
@@ -172,8 +166,16 @@ function ArsenalWidget() {
   );
 }
 
+interface Article {
+  title: string;
+  link: string;
+  category: string;
+  pubDate: string;
+  contentSnippet: string;
+}
+
 function RadarWidget() {
-  const [articles, setArticles] = useState<any[]>([]);
+  const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -183,8 +185,7 @@ function RadarWidget() {
         setArticles(data.articles || []);
         setLoading(false);
       })
-      .catch((e) => {
-        console.error(e);
+      .catch(() => {
         setLoading(false);
       });
   }, []);
