@@ -1,6 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import Parser from 'rss-parser';
+import fs from 'fs';
+import path from 'path';
+import { spawn, execSync } from 'child_process';
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -72,6 +75,100 @@ app.post('/api/skills/run', (req, res) => {
   res.json({ status: 'running', message: `Started execution of ${skillId}` });
 });
 
+// Activity endpoint that returns today's computer active/sitting time
+app.get('/api/activity', (req, res) => {
+  const logFilePath = 'C:\\Users\\aalta\\.gemini\\antigravity\\activity_log.json';
+  
+  // Get local date string matching Python YYYY-MM-DD
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  const todayStr = `${year}-${month}-${day}`;
+
+  let logData: any = {};
+  if (fs.existsSync(logFilePath)) {
+    try {
+      logData = JSON.parse(fs.readFileSync(logFilePath, 'utf-8'));
+    } catch (e) {
+      console.error("Error reading activity log:", e);
+    }
+  }
+
+  // Fallback: If today's log doesn't exist, run the estimator script sync to populate it
+  if (!logData[todayStr]) {
+    try {
+      console.log("Today's activity log not found. Running estimator...");
+      execSync('c:\\Users\\aalta\\anaconda3\\python.exe c:\\Users\\aalta\\github\\central-command\\server\\estimate_activity.py');
+      if (fs.existsSync(logFilePath)) {
+        logData = JSON.parse(fs.readFileSync(logFilePath, 'utf-8'));
+      }
+    } catch (e) {
+      console.error("Failed to run estimator:", e);
+    }
+  }
+
+  const todayData = logData[todayStr] || {
+    active_seconds: 0,
+    session_seconds: 0,
+    hourly_breakdown: {},
+    last_active: ""
+  };
+
+  res.json({
+    today: todayStr,
+    activeSeconds: todayData.active_seconds || 0,
+    sessionSeconds: todayData.session_seconds || 0,
+    hourlyBreakdown: todayData.hourly_breakdown || {},
+    lastActive: todayData.last_active || "",
+    estimated: todayData.estimated || false
+  });
+});
+
+// Reset endpoint to override or clear current sessions
+app.post('/api/activity/reset', (req, res) => {
+  const logFilePath = 'C:\\Users\\aalta\\.gemini\antigravity\\activity_log.json';
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  const todayStr = `${year}-${month}-${day}`;
+
+  try {
+    let logData: any = {};
+    if (fs.existsSync(logFilePath)) {
+      logData = JSON.parse(fs.readFileSync(logFilePath, 'utf-8'));
+    }
+    
+    logData[todayStr] = {
+      active_seconds: 0,
+      session_seconds: 0,
+      hourly_breakdown: { ...logData[todayStr]?.hourly_breakdown },
+      last_active: new Date().toISOString()
+    };
+    
+    fs.writeFileSync(logFilePath, JSON.stringify(logData, null, 2));
+    res.json({ success: true, message: "Activity stats reset successfully" });
+  } catch (e) {
+    res.status(500).json({ error: "Failed to reset stats" });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Central Command API running at http://localhost:${port}`);
+  
+  // Start the background activity tracker daemon on server launch
+  try {
+    const pythonPath = 'c:\\Users\\aalta\\anaconda3\\python.exe';
+    const trackerScript = 'c:\\Users\\aalta\\github\\central-command\\server\\activity_tracker.py';
+    
+    console.log("Initializing activity tracker daemon...");
+    const daemon = spawn(pythonPath, [trackerScript], {
+      detached: true,
+      stdio: 'ignore'
+    });
+    daemon.unref();
+  } catch (e) {
+    console.error("Failed to spawn activity tracker daemon:", e);
+  }
 });
