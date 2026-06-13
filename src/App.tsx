@@ -8,17 +8,17 @@ const AUTH_KEY = 'central_command_auth';
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => localStorage.getItem(AUTH_KEY) === 'true');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
+
   const [error, setError] = useState('');
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (username === 'admin' && password === 'admin') {
+    if (password === '123456') {
       localStorage.setItem(AUTH_KEY, 'true');
       setIsAuthenticated(true);
       setError('');
     } else {
-      setError('Invalid credentials');
+      setError('Invalid password');
     }
   };
 
@@ -37,16 +37,9 @@ export default function App() {
           </div>
           
           <input 
-            type="text" 
-            className="glass-input" 
-            placeholder="Username" 
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input 
             type="password" 
             className="glass-input" 
-            placeholder="Password" 
+            placeholder="Enter Access Code" 
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -385,65 +378,66 @@ function ArsenalWidget() {
   );
 }
 
-interface Article {
-  title: string;
-  link: string;
-  category: string;
-  pubDate: string;
-  contentSnippet: string;
-}
-
 function RadarWidget() {
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [query, setQuery] = useState('');
+  const [response, setResponse] = useState<string>('');
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetch(`${API_URL}/api/news`)
-      .then(res => res.json())
-      .then(data => {
-        setArticles(data.articles || []);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
+  const askRadar = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!query.trim()) return;
+
+    setLoading(true);
+    setResponse('');
+    
+    try {
+      const res = await fetch(`${API_URL}/api/news/ask`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query })
       });
-  }, []);
+      const data = await res.json();
+      setResponse(data.answer || 'No signal detected.');
+    } catch (err) {
+      setResponse('Error establishing uplink to Perplexity API.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         <Globe size={24} color="var(--accent-cyan)" />
         <h2 style={{ fontSize: '20px', margin: 0 }}>The Radar</h2>
-        <span style={{ marginLeft: 'auto', fontSize: '12px', color: 'var(--accent-red)', border: '1px solid var(--accent-red)', padding: '2px 8px', borderRadius: '12px' }}>LIVE</span>
+        <span style={{ marginLeft: 'auto', fontSize: '12px', color: 'var(--accent-red)', border: '1px solid var(--accent-red)', padding: '2px 8px', borderRadius: '12px' }}>LIVE INTELLIGENCE</span>
       </div>
 
-      {loading ? (
-        <div style={{ display: 'flex', justifyContent: 'center', padding: '40px' }}>
-          <Activity size={32} color="var(--accent-cyan)" className="animate-pulse" />
-        </div>
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', overflowY: 'auto', maxHeight: '500px', paddingRight: '8px' }}>
-          {articles.map((article, i) => (
-            <a key={i} href={article.link} target="_blank" rel="noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <div className="glass-panel" style={{ padding: '16px', background: 'rgba(0,0,0,0.2)', transition: 'transform 0.2s' }} 
-                   onMouseEnter={(e) => e.currentTarget.style.transform = 'translateX(4px)'}
-                   onMouseLeave={(e) => e.currentTarget.style.transform = 'translateX(0)'}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                  <span style={{ fontSize: '11px', color: article.category === 'Economics' ? 'var(--accent-green)' : 'var(--accent-purple)', fontWeight: 'bold' }}>
-                    {article.category.toUpperCase()}
-                  </span>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                    {new Date(article.pubDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                  </span>
-                </div>
-                <h3 style={{ fontSize: '15px', margin: '0 0 8px 0', lineHeight: 1.4 }}>{article.title}</h3>
-                <p style={{ fontSize: '13px', color: 'var(--text-muted)', margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                  {article.contentSnippet}
-                </p>
-              </div>
-            </a>
-          ))}
-          {articles.length === 0 && <p style={{ color: 'var(--text-muted)' }}>No signals detected. Waiting for intel.</p>}
+      <form onSubmit={askRadar} style={{ display: 'flex', gap: '10px' }}>
+        <input 
+          type="text" 
+          className="glass-input" 
+          placeholder="Ask about live news (e.g., 'Is Anthropic's new model blocked?')" 
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          style={{ flex: 1 }}
+        />
+        <button type="submit" className="glass-button primary" disabled={loading || !query.trim()}>
+          {loading ? <Activity size={18} className="animate-pulse" /> : <Sparkles size={18} />}
+          Scan
+        </button>
+      </form>
+
+      {(response || loading) && (
+        <div style={{ background: 'rgba(0,0,0,0.3)', padding: '16px', borderRadius: '8px', border: '1px solid var(--border-glass)', fontSize: '14px', lineHeight: 1.6, color: 'var(--text-main)', minHeight: '100px' }}>
+          {loading ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--accent-cyan)' }}>
+              <Activity size={18} className="animate-pulse" />
+              <span>Querying global signals via Perplexity...</span>
+            </div>
+          ) : (
+            <div dangerouslySetInnerHTML={{ __html: response.replace(/\n/g, '<br />') }} />
+          )}
         </div>
       )}
     </div>

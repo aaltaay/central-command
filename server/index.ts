@@ -4,6 +4,10 @@ import Parser from 'rss-parser';
 import fs from 'fs';
 import path from 'path';
 import { spawn, execSync } from 'child_process';
+import dotenv from 'dotenv';
+
+dotenv.config({ path: '.env.secrets' });
+dotenv.config(); // fallback to .env
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -53,6 +57,41 @@ app.get('/api/news', async (req, res) => {
   }
 });
 
+app.post('/api/news/ask', async (req, res) => {
+  const { query } = req.body;
+  if (!query) return res.status(400).json({ error: 'Query is required' });
+  
+  if (!process.env.PERPLEXITY_API_KEY) {
+    return res.status(500).json({ answer: 'Perplexity API key missing in .env.secrets' });
+  }
+
+  try {
+    const response = await fetch('https://api.perplexity.ai/v1/responses', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.PERPLEXITY_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        preset: "fast-search",
+        input: query
+      })
+    });
+    
+    const data = await response.json();
+    if (data.answer) {
+      res.json({ answer: data.answer });
+    } else if (data.text) { // fallback in case structure varies
+      res.json({ answer: data.text });
+    } else {
+      res.json({ answer: 'Intelligence gathered, but format is unreadable.' });
+    }
+  } catch (error) {
+    console.error('Perplexity API Error:', error);
+    res.status(500).json({ error: 'Failed to contact global intelligence' });
+  }
+});
+
 // A simple mock list of skills for now, since parsing them requires file system ops
 app.get('/api/skills', (req, res) => {
   res.json({
@@ -99,7 +138,7 @@ app.get('/api/activity', (req, res) => {
   if (!logData[todayStr]) {
     try {
       console.log("Today's activity log not found. Running estimator...");
-      execSync('c:\\Users\\aalta\\anaconda3\\python.exe c:\\Users\\aalta\\github\\central-command\\server\\estimate_activity.py');
+      execSync('c:\\Users\\aalta\\anaconda3\\python.exe c:\\Users\\aalta\\github\\ahmios-site\\server\\estimate_activity.py');
       if (fs.existsSync(logFilePath)) {
         logData = JSON.parse(fs.readFileSync(logFilePath, 'utf-8'));
       }
@@ -160,7 +199,7 @@ app.listen(port, () => {
   // Start the background activity tracker daemon on server launch
   try {
     const pythonPath = 'c:\\Users\\aalta\\anaconda3\\python.exe';
-    const trackerScript = 'c:\\Users\\aalta\\github\\central-command\\server\\activity_tracker.py';
+    const trackerScript = 'c:\\Users\\aalta\\github\\ahmios-site\\server\\activity_tracker.py';
     
     console.log("Initializing activity tracker daemon...");
     const daemon = spawn(pythonPath, [trackerScript], {
