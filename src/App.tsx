@@ -3,7 +3,7 @@ import { Terminal, Activity, Globe, ShieldAlert, LogOut, Code, Play, Clock, Spar
 import './index.css';
 
 const AUTH_KEY = 'central_command_auth';
-const API_URL = import.meta.env.VITE_API_URL || 'https://api.ahmios.altaystudio.com';
+const API_URL = import.meta.env.VITE_API_URL || 'https://ahmios-api.altaystudio.com';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => localStorage.getItem(AUTH_KEY) === 'true');
