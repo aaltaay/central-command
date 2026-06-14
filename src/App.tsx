@@ -160,6 +160,8 @@ function HermesChatWidget({ mockMode }: { mockMode: boolean }) {
       });
       const data = await res.json();
       setHistory(prev => [...prev, { role: 'assistant', content: data.reply || data.error }]);
+      // Dispatch event to refresh OpenRouter usage numbers
+      window.dispatchEvent(new Event('openrouter-refresh'));
     } catch (err: any) {
       if (err.name === 'AbortError') {
         setHistory(prev => [...prev, { role: 'assistant', content: '[Terminated] The connection was forcibly closed by user.' }]);
@@ -447,14 +449,48 @@ function ActivityWidget({ mockMode }: { mockMode: boolean }) {
 }
 
 function OpenRouterWidget({ mockMode }: { mockMode: boolean }) {
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem('openrouter_api_key') || '');
+  const [apiKey, setApiKey] = useState('');
   const [data, setData] = useState<{ usage: number; limit: number; is_free_tier: boolean } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const saveKey = (val: string) => {
+  // Load key from backend database on mount
+  useEffect(() => {
+    const loadKeyFromBackend = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/config`);
+        if (res.ok) {
+          const json = await res.json();
+          if (json.openRouterApiKey) {
+            setApiKey(json.openRouterApiKey);
+            return;
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load OpenRouter key from backend:', err);
+      }
+      
+      // Fallback to localStorage if backend load fails or returns empty
+      const localKey = localStorage.getItem('openrouter_api_key');
+      if (localKey) setApiKey(localKey);
+    };
+    loadKeyFromBackend();
+  }, []);
+
+  const saveKey = async (val: string) => {
     setApiKey(val);
     localStorage.setItem('openrouter_api_key', val);
+    
+    // Save to backend database
+    try {
+      await fetch(`${API_URL}/api/config`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ openRouterApiKey: val })
+      });
+    } catch (err) {
+      console.error('Failed to save OpenRouter key to backend database:', err);
+    }
   };
 
   const fetchUsage = async () => {
@@ -493,6 +529,26 @@ function OpenRouterWidget({ mockMode }: { mockMode: boolean }) {
   useEffect(() => {
     if (apiKey) fetchUsage();
   }, [mockMode, apiKey]);
+
+  // Set up periodic auto-refresh and event-driven refresh to avoid stale numbers
+  useEffect(() => {
+    if (!apiKey) return;
+
+    const handleRefresh = () => {
+      fetchUsage();
+    };
+
+    // Refresh every 30 seconds to keep numbers completely fresh
+    const intervalId = setInterval(handleRefresh, 30000);
+
+    // Refresh when a chatbot interaction occurs
+    window.addEventListener('openrouter-refresh', handleRefresh);
+
+    return () => {
+      clearInterval(intervalId);
+      window.removeEventListener('openrouter-refresh', handleRefresh);
+    };
+  }, [apiKey]);
 
   return (
     <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>

@@ -9,6 +9,20 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '.env.secrets' });
 dotenv.config(); // fallback to .env
 
+// Load database config and override env if present
+const CONFIG_PATH = path.join(process.cwd(), 'server', 'config.json');
+if (fs.existsSync(CONFIG_PATH)) {
+  try {
+    const config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
+    if (config.openRouterApiKey) {
+      process.env.HERMES_API_KEY = config.openRouterApiKey;
+      console.log('Loaded OpenRouter API Key from config database.');
+    }
+  } catch (e) {
+    console.error('Failed to read config database on startup:', e);
+  }
+}
+
 const app = express();
 const port = process.env.PORT || 3001;
 const parser = new Parser();
@@ -32,6 +46,44 @@ const RSS_FEEDS = [
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Central Command API is online' });
+});
+
+function getConfig() {
+  if (fs.existsSync(CONFIG_PATH)) {
+    try {
+      return JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
+    } catch (e) {
+      console.error('Error reading config:', e);
+    }
+  }
+  return {};
+}
+
+function saveConfig(config: any) {
+  try {
+    fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2));
+  } catch (e) {
+    console.error('Error saving config:', e);
+  }
+}
+
+app.get('/api/config', (req, res) => {
+  const config = getConfig();
+  const openRouterKey = config.openRouterApiKey || (process.env.HERMES_API_KEY?.startsWith('sk-or-') ? process.env.HERMES_API_KEY : '');
+  res.json({ openRouterApiKey: openRouterKey });
+});
+
+app.post('/api/config', (req, res) => {
+  const { openRouterApiKey } = req.body;
+  const config = getConfig();
+  config.openRouterApiKey = openRouterApiKey;
+  saveConfig(config);
+  
+  if (openRouterApiKey) {
+    process.env.HERMES_API_KEY = openRouterApiKey;
+  }
+  
+  res.json({ success: true });
 });
 
 app.get('/api/news', async (req, res) => {
