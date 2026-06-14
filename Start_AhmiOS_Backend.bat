@@ -17,7 +17,7 @@ echo Using remote Hermes API via OpenRouter...
 REM start /b "" "C:\Users\aalta\AppData\Local\hermes\hermes-agent\venv\Scripts\hermes.exe" gateway run --replace
 REM timeout /t 3 /nobreak >nul
 
-REM Start Cloudflare Tunnel (exposes localhost:3001 as api.ahmios.altaystudio.com)
+REM Start Cloudflare Tunnel (exposes localhost:3001 as ahmios-api.altaystudio.com)
 echo Starting Cloudflare Tunnel...
 start /b "" "C:\Users\aalta\cloudflared.exe" tunnel run ahmios-backend
 timeout /t 2 /nobreak >nul

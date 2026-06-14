@@ -15,8 +15,7 @@ if (fs.existsSync(CONFIG_PATH)) {
   try {
     const config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
     if (config.openRouterApiKey) {
-      process.env.HERMES_API_KEY = config.openRouterApiKey;
-      console.log('Loaded OpenRouter API Key from config database.');
+      console.log('Loaded OpenRouter API Key configuration.');
     }
   } catch (e) {
     console.error('Failed to read config database on startup:', e);
@@ -78,11 +77,6 @@ app.post('/api/config', (req, res) => {
   const config = getConfig();
   config.openRouterApiKey = openRouterApiKey;
   saveConfig(config);
-  
-  if (openRouterApiKey) {
-    process.env.HERMES_API_KEY = openRouterApiKey;
-  }
-  
   res.json({ success: true });
 });
 
@@ -239,6 +233,12 @@ app.post('/api/hermes/chat', async (req, res) => {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 60000);
 
+    // Format history for OpenAI chat completions format (role and content only)
+    const formattedMessages = history.map((msg: any) => ({
+      role: msg.role,
+      content: msg.content
+    }));
+
     const response = await fetch(`${HERMES_API_URL}/v1/chat/completions`, {
       method: 'POST',
       headers: {
@@ -247,7 +247,7 @@ app.post('/api/hermes/chat', async (req, res) => {
       },
       body: JSON.stringify({
         model: HERMES_MODEL,
-        messages: [{ role: 'user', content: message }]
+        messages: formattedMessages
       }),
       signal: controller.signal
     });
