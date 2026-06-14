@@ -107,6 +107,7 @@ function HermesChatWidget({ mockMode }: { mockMode: boolean }) {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     if (mockMode) {
@@ -122,6 +123,13 @@ function HermesChatWidget({ mockMode }: { mockMode: boolean }) {
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [history]);
+
+  const stopThinking = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    setLoading(false);
+  };
 
   const sendMsg = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -140,18 +148,27 @@ function HermesChatWidget({ mockMode }: { mockMode: boolean }) {
       return;
     }
 
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
+
     try {
       const res = await fetch(`${API_URL}/api/hermes/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMsg })
+        body: JSON.stringify({ message: userMsg }),
+        signal: abortController.signal
       });
       const data = await res.json();
       setHistory(prev => [...prev, { role: 'assistant', content: data.reply || data.error }]);
-    } catch (err) {
-      setHistory(prev => [...prev, { role: 'assistant', content: 'Error connecting to Hermes daemon.' }]);
+    } catch (err: any) {
+      if (err.name === 'AbortError') {
+        setHistory(prev => [...prev, { role: 'assistant', content: '[Terminated] The connection was forcibly closed by user.' }]);
+      } else {
+        setHistory(prev => [...prev, { role: 'assistant', content: 'Error connecting to Hermes daemon.' }]);
+      }
     } finally {
       setLoading(false);
+      abortControllerRef.current = null;
     }
   };
 
@@ -173,9 +190,19 @@ function HermesChatWidget({ mockMode }: { mockMode: boolean }) {
           </div>
         ))}
         {loading && (
-          <div className="chat-msg hermes" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div className="loading-dot" style={{ width: '8px', height: '8px', background: 'var(--accent)', borderRadius: '50%' }}></div>
-            <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Thinking...</span>
+          <div className="chat-msg hermes" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div className="loading-dot" style={{ width: '8px', height: '8px', background: 'var(--accent)', borderRadius: '50%' }}></div>
+              <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Thinking...</span>
+            </div>
+            <button 
+              className="btn-secondary" 
+              style={{ padding: '2px 8px', fontSize: '10px', color: 'var(--danger)', cursor: 'pointer', border: '1px solid var(--danger)' }}
+              onClick={stopThinking}
+              type="button"
+            >
+              STOP
+            </button>
           </div>
         )}
       </div>
