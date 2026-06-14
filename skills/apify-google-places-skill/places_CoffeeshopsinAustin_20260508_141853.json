@@ -1,0 +1,616 @@
+[
+  {
+    "title": "Trippy Buck Coffee",
+    "subTitle": null,
+    "description": null,
+    "price": "$1–10",
+    "categoryName": "Coffee shop",
+    "address": "720 Brazos St, Austin, TX 78701",
+    "neighborhood": "Downtown Austin",
+    "street": "720 Brazos St",
+    "city": "Austin",
+    "postalCode": "78701",
+    "state": "Texas",
+    "countryCode": "US",
+    "website": "https://linktr.ee/TrippyBuckCoffee?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAOvltFleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAafPGTs3doC7G6iYl4bdm8eobtHYT7lwdrmtAJIogPc3m1ER7rdba5rs15R47g_aem_v9KZ91BuOHvER1SQpfRq0Q",
+    "phone": "",
+    "phoneUnformatted": "",
+    "claimThisBusiness": false,
+    "location": {
+      "lat": 30.269417,
+      "lng": -97.7410702
+    },
+    "locatedIn": null,
+    "floor": null,
+    "plusCode": null,
+    "menu": null,
+    "servicesLink": null,
+    "totalScore": 4.9,
+    "permanentlyClosed": false,
+    "temporarilyClosed": false,
+    "placeId": "ChIJbz4l-kK1RIYRElA6U66oEQg",
+    "categories": [
+      "Coffee shop"
+    ],
+    "fid": "0x8644b542fa253e6f:0x811a8ae533a5012",
+    "cid": "581431293581611026",
+    "reviewsCount": 26,
+    "imagesCount": 12,
+    "imageCategories": [],
+    "scrapedAt": "2026-05-08T18:18:42.406Z",
+    "reserveTableUrl": null,
+    "googleFoodUrl": null,
+    "hotelStars": null,
+    "hotelDescription": null,
+    "checkInDate": null,
+    "checkOutDate": null,
+    "hotelAds": [],
+    "popularTimesLiveText": null,
+    "popularTimesLivePercent": null,
+    "popularTimesHistogram": {},
+    "openingHours": [
+      {
+        "day": "Monday",
+        "hours": "8 AM to 5 PM"
+      },
+      {
+        "day": "Tuesday",
+        "hours": "8 AM to 5 PM"
+      },
+      {
+        "day": "Wednesday",
+        "hours": "8 AM to 5 PM"
+      },
+      {
+        "day": "Thursday",
+        "hours": "8 AM to 5 PM"
+      },
+      {
+        "day": "Friday",
+        "hours": "8 AM to 5 PM"
+      },
+      {
+        "day": "Saturday",
+        "hours": "Closed"
+      },
+      {
+        "day": "Sunday",
+        "hours": "Closed"
+      }
+    ],
+    "peopleAlsoSearch": [],
+    "placesTags": [],
+    "reviewsTags": [],
+    "additionalInfo": {
+      "From the business": [
+        {
+          "Small business": true
+        }
+      ],
+      "Service options": [
+        {
+          "Onsite services": true
+        },
+        {
+          "Dine-in": true
+        },
+        {
+          "Delivery": false
+        }
+      ],
+      "Accessibility": [
+        {
+          "Wheelchair accessible entrance": true
+        },
+        {
+          "Wheelchair accessible parking lot": true
+        }
+      ],
+      "Offerings": [
+        {
+          "Coffee": true
+        }
+      ],
+      "Dining options": [
+        {
+          "Seating": true
+        }
+      ],
+      "Amenities": [
+        {
+          "Restroom": true
+        },
+        {
+          "Wi-Fi": true
+        },
+        {
+          "Free Wi-Fi": true
+        }
+      ],
+      "Atmosphere": [
+        {
+          "Casual": true
+        }
+      ],
+      "Crowd": [
+        {
+          "Family-friendly": true
+        },
+        {
+          "LGBTQ+ friendly": true
+        },
+        {
+          "Transgender safespace": true
+        }
+      ],
+      "Payments": [
+        {
+          "Credit cards": true
+        },
+        {
+          "Debit cards": true
+        },
+        {
+          "NFC mobile payments": true
+        },
+        {
+          "Credit cards": true
+        }
+      ],
+      "Parking": [
+        {
+          "Paid parking garage": true
+        },
+        {
+          "Paid street parking": true
+        }
+      ]
+    },
+    "gasPrices": [],
+    "url": "https://www.google.com/maps/search/?api=1&query=Trippy%20Buck%20Coffee&query_place_id=ChIJbz4l-kK1RIYRElA6U66oEQg",
+    "searchPageUrl": "https://www.google.com/maps/search/Coffee%20shops%20in%20Austin?hl=en",
+    "searchString": "Coffee shops in Austin",
+    "language": "en",
+    "rank": 1,
+    "isAdvertisement": false,
+    "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEHxzbAtdbTYQquxyqq2SLd153zi4M_8PuDnt4mY7jZHMZecHXRNPWl_yj7xqA-Q2ibP4O8uPzgZAPHPR7eduzOxTZO_T93cZ2dcZtMPDJH9vxtBxnsPeO5u3QugSL_ypGoFOADgg0pAcZZ=w408-h272-k-no",
+    "kgmid": "/g/11yr7q6kv6"
+  },
+  {
+    "title": "Café Crème - Downtown",
+    "subTitle": null,
+    "description": null,
+    "price": "$1–20",
+    "categoryName": "Coffee shop",
+    "address": "710 W Cesar Chavez St, Austin, TX 78701",
+    "neighborhood": "Seaholm District",
+    "street": "710 W Cesar Chavez St",
+    "city": "Austin",
+    "postalCode": "78701",
+    "state": "Texas",
+    "countryCode": "US",
+    "website": "https://cafecremeaustin.com/locations/downtown",
+    "phone": "(512) 730-0377",
+    "phoneUnformatted": "+15127300377",
+    "claimThisBusiness": false,
+    "location": {
+      "lat": 30.2661527,
+      "lng": -97.7513939
+    },
+    "locatedIn": null,
+    "floor": null,
+    "plusCode": null,
+    "menu": null,
+    "servicesLink": null,
+    "totalScore": 4.8,
+    "permanentlyClosed": false,
+    "temporarilyClosed": false,
+    "placeId": "ChIJ0QbsjcW1RIYRJxQSKO9kl8A",
+    "categories": [
+      "Coffee shop",
+      "Breakfast restaurant",
+      "Brunch restaurant",
+      "Cafe",
+      "Espresso bar",
+      "Lunch restaurant",
+      "Restaurant",
+      "Wine bar"
+    ],
+    "fid": "0x8644b5c58dec06d1:0xc09764ef28121427",
+    "cid": "13877671755097707559",
+    "reviewsCount": 243,
+    "imagesCount": 409,
+    "imageCategories": [],
+    "scrapedAt": "2026-05-08T18:18:42.408Z",
+    "reserveTableUrl": null,
+    "googleFoodUrl": null,
+    "hotelStars": null,
+    "hotelDescription": null,
+    "checkInDate": null,
+    "checkOutDate": null,
+    "hotelAds": [],
+    "popularTimesLiveText": null,
+    "popularTimesLivePercent": null,
+    "popularTimesHistogram": {},
+    "openingHours": [
+      {
+        "day": "Monday",
+        "hours": "7 AM to 9 PM"
+      },
+      {
+        "day": "Tuesday",
+        "hours": "7 AM to 9 PM"
+      },
+      {
+        "day": "Wednesday",
+        "hours": "7 AM to 9 PM"
+      },
+      {
+        "day": "Thursday",
+        "hours": "7 AM to 9 PM"
+      },
+      {
+        "day": "Friday",
+        "hours": "7 AM to 9 PM"
+      },
+      {
+        "day": "Saturday",
+        "hours": "7 AM to 9 PM"
+      },
+      {
+        "day": "Sunday",
+        "hours": "7 AM to 9 PM"
+      }
+    ],
+    "additionalOpeningHours": {
+      "Happy hours": [
+        {
+          "day": "Monday",
+          "hours": "4–7 PM"
+        },
+        {
+          "day": "Tuesday",
+          "hours": "4–7 PM"
+        },
+        {
+          "day": "Wednesday",
+          "hours": "4–7 PM"
+        },
+        {
+          "day": "Thursday",
+          "hours": "4–7 PM"
+        },
+        {
+          "day": "Friday",
+          "hours": "4–7 PM"
+        },
+        {
+          "day": "Saturday",
+          "hours": "4–7 PM"
+        },
+        {
+          "day": "Sunday",
+          "hours": "4–7 PM"
+        }
+      ],
+      "Breakfast": [
+        {
+          "day": "Monday",
+          "hours": "7 AM–3 PM"
+        },
+        {
+          "day": "Tuesday",
+          "hours": "7 AM–3 PM"
+        },
+        {
+          "day": "Wednesday",
+          "hours": "7 AM–3 PM"
+        },
+        {
+          "day": "Thursday",
+          "hours": "7 AM–3 PM"
+        },
+        {
+          "day": "Friday",
+          "hours": "7 AM–3 PM"
+        },
+        {
+          "day": "Saturday",
+          "hours": "7 AM–3 PM"
+        },
+        {
+          "day": "Sunday",
+          "hours": "7 AM–3 PM"
+        }
+      ],
+      "Lunch": [
+        {
+          "day": "Monday",
+          "hours": "7 AM–9 PM"
+        },
+        {
+          "day": "Tuesday",
+          "hours": "7 AM–9 PM"
+        },
+        {
+          "day": "Wednesday",
+          "hours": "7 AM–9 PM"
+        },
+        {
+          "day": "Thursday",
+          "hours": "7 AM–9 PM"
+        },
+        {
+          "day": "Friday",
+          "hours": "7 AM–9 PM"
+        },
+        {
+          "day": "Saturday",
+          "hours": "7 AM–9 PM"
+        },
+        {
+          "day": "Sunday",
+          "hours": "7 AM–9 PM"
+        }
+      ],
+      "Dinner": [
+        {
+          "day": "Monday",
+          "hours": "7 AM–9 PM"
+        },
+        {
+          "day": "Tuesday",
+          "hours": "7 AM–9 PM"
+        },
+        {
+          "day": "Wednesday",
+          "hours": "7 AM–9 PM"
+        },
+        {
+          "day": "Thursday",
+          "hours": "7 AM–9 PM"
+        },
+        {
+          "day": "Friday",
+          "hours": "7 AM–9 PM"
+        },
+        {
+          "day": "Saturday",
+          "hours": "7 AM–9 PM"
+        },
+        {
+          "day": "Sunday",
+          "hours": "7 AM–9 PM"
+        }
+      ]
+    },
+    "peopleAlsoSearch": [],
+    "placesTags": [],
+    "reviewsTags": [],
+    "additionalInfo": {
+      "From the business": [
+        {
+          "Small business": true
+        }
+      ],
+      "Service options": [
+        {
+          "Outdoor seating": true
+        },
+        {
+          "Delivery": true
+        },
+        {
+          "Onsite services": true
+        },
+        {
+          "Takeout": true
+        },
+        {
+          "Dine-in": true
+        }
+      ],
+      "Highlights": [
+        {
+          "Fast service": true
+        },
+        {
+          "Great coffee": true
+        },
+        {
+          "Great tea selection": true
+        },
+        {
+          "Live music": true
+        },
+        {
+          "Live performances": true
+        },
+        {
+          "Rooftop seating": true
+        }
+      ],
+      "Popular for": [
+        {
+          "Breakfast": true
+        },
+        {
+          "Lunch": true
+        },
+        {
+          "Solo dining": true
+        },
+        {
+          "Good for working on laptop": true
+        }
+      ],
+      "Accessibility": [
+        {
+          "Wheelchair accessible entrance": true
+        },
+        {
+          "Wheelchair accessible parking lot": true
+        },
+        {
+          "Wheelchair accessible restroom": true
+        },
+        {
+          "Wheelchair accessible seating": true
+        }
+      ],
+      "Offerings": [
+        {
+          "Alcohol": true
+        },
+        {
+          "Beer": true
+        },
+        {
+          "Cocktails": true
+        },
+        {
+          "Coffee": true
+        },
+        {
+          "Happy hour drinks": true
+        },
+        {
+          "Happy hour food": true
+        },
+        {
+          "Hard liquor": true
+        },
+        {
+          "Prepared foods": true
+        },
+        {
+          "Quick bite": true
+        },
+        {
+          "Vegan options": true
+        },
+        {
+          "Vegetarian options": true
+        },
+        {
+          "Wine": true
+        }
+      ],
+      "Dining options": [
+        {
+          "Breakfast": true
+        },
+        {
+          "Brunch": true
+        },
+        {
+          "Lunch": true
+        },
+        {
+          "Dinner": true
+        },
+        {
+          "Catering": true
+        },
+        {
+          "Dessert": true
+        },
+        {
+          "Seating": true
+        }
+      ],
+      "Amenities": [
+        {
+          "Bar onsite": true
+        },
+        {
+          "Restroom": true
+        },
+        {
+          "Wi-Fi": true
+        },
+        {
+          "Free Wi-Fi": true
+        }
+      ],
+      "Atmosphere": [
+        {
+          "Casual": true
+        },
+        {
+          "Cozy": true
+        },
+        {
+          "Trendy": true
+        }
+      ],
+      "Crowd": [
+        {
+          "Family-friendly": true
+        },
+        {
+          "LGBTQ+ friendly": true
+        },
+        {
+          "Tourists": true
+        }
+      ],
+      "Payments": [
+        {
+          "Credit cards": true
+        },
+        {
+          "Debit cards": true
+        },
+        {
+          "NFC mobile payments": true
+        },
+        {
+          "Credit cards": true
+        }
+      ],
+      "Children": [
+        {
+          "Good for kids": true
+        }
+      ],
+      "Parking": [
+        {
+          "Free parking garage": true
+        },
+        {
+          "Free street parking": true
+        },
+        {
+          "On-site parking": true
+        },
+        {
+          "Paid parking garage": true
+        },
+        {
+          "Paid parking lot": true
+        },
+        {
+          "Paid street parking": true
+        },
+        {
+          "Usually plenty of parking": true
+        }
+      ],
+      "Pets": [
+        {
+          "Dogs allowed outside": true
+        }
+      ]
+    },
+    "gasPrices": [],
+    "url": "https://www.google.com/maps/search/?api=1&query=Caf%C3%A9%20Cr%C3%A8me%20-%20Downtown&query_place_id=ChIJ0QbsjcW1RIYRJxQSKO9kl8A",
+    "searchPageUrl": "https://www.google.com/maps/search/Coffee%20shops%20in%20Austin?hl=en",
+    "searchString": "Coffee shops in Austin",
+    "language": "en",
+    "rank": 2,
+    "isAdvertisement": false,
+    "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEvkoNkgSRAmt_zCOvPAS1OgLJdqdE_N3u1sgQv80dK2gilVDj6yUe4SqBZSu00fGgU0Q9ieBLs4TgmKGGo5-ce0h5CAUMOgF4nC0lt7ToVGrS7eCu9kabkWFEAZUOp1J_Yy2JTS7qe0BY=w426-h240-k-no",
+    "kgmid": "/g/11m6xjvf2c"
+  }
+]

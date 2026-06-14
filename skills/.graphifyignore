@@ -1,0 +1,14 @@
+# Exclude the massive open-design submodule (3900+ files)
+open-design/
+
+# Exclude dependency directories
+node_modules/
+.next/
+dist/
+build/
+.git/
+
+# Exclude cache/output directories
+graphify-out/
+__pycache__/
+.cache/

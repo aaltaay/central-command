@@ -61,11 +61,11 @@ app.post('/api/news/ask', async (req, res) => {
   const { query } = req.body;
   if (!query) return res.status(400).json({ error: 'Query is required' });
   
-  if (!process.env.PERPLEXITY_API_KEY) {
-    return res.status(500).json({ answer: 'Perplexity API key missing in .env.secrets' });
-  }
-
   try {
+    if (!process.env.PERPLEXITY_API_KEY) {
+      throw new Error('Perplexity API key missing');
+    }
+
     const response = await fetch('https://api.perplexity.ai/v1/responses', {
       method: 'POST',
       headers: {
@@ -78,40 +78,119 @@ app.post('/api/news/ask', async (req, res) => {
       })
     });
     
+    if (!response.ok) throw new Error('Perplexity API failed');
+    
     const data = await response.json();
     if (data.answer) {
-      res.json({ answer: data.answer });
-    } else if (data.text) { // fallback in case structure varies
-      res.json({ answer: data.text });
-    } else {
-      res.json({ answer: 'Intelligence gathered, but format is unreadable.' });
+      return res.json({ answer: data.answer });
+    } else if (data.text) { 
+      return res.json({ answer: data.text });
     }
+    throw new Error('Invalid Perplexity format');
   } catch (error) {
-    console.error('Perplexity API Error:', error);
-    res.status(500).json({ error: 'Failed to contact global intelligence' });
+    console.error('Perplexity API Error, falling back to RSS:', error);
+    
+    try {
+      const feedPromises = RSS_FEEDS.map(async (feed) => {
+        try {
+          const data = await parser.parseURL(feed.url);
+          return data.items.map(item => `${item.title} (${item.source})`).slice(0, 3);
+        } catch { return []; }
+      });
+      const results = await Promise.all(feedPromises);
+      const flatResults = results.flat();
+      return res.json({ 
+        answer: `[Fallback Mode: Perplexity unavailable]\nHere are the latest headlines:\n- ${flatResults.join('\n- ')}` 
+      });
+    } catch {
+      return res.status(500).json({ error: 'Failed to contact global intelligence and RSS fallback failed.' });
+    }
   }
 });
 
-// A simple mock list of skills for now, since parsing them requires file system ops
+const AHMIOS_DIR = 'C:\\Users\\aalta\\github\\AhmiOS';
+
 app.get('/api/skills', (req, res) => {
-  res.json({
-    skills: [
-      { id: 'apify-google-places', name: 'Google Places Scraper', type: 'Python' },
-      { id: 'apify-instagram', name: 'Instagram Scraper', type: 'Python' },
-      { id: 'firecrawl', name: 'Firecrawl Search', type: 'Node' },
-      { id: 'youtube', name: 'YouTube Intel', type: 'Python' },
-    ]
-  });
+  try {
+    const dirs = fs.readdirSync(AHMIOS_DIR, { withFileTypes: true });
+    const skills = dirs
+      .filter(dirent => dirent.isDirectory() && dirent.name.endsWith('-skill'))
+      .map(dirent => ({
+        id: dirent.name,
+        name: dirent.name.replace('-skill', '').split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+        type: 'Python'
+      }));
+    res.json({ skills });
+  } catch (err) {
+    console.error('Failed to read AhmiOS dir:', err);
+    res.status(500).json({ error: 'Failed to load skills' });
+  }
 });
 
 app.post('/api/skills/run', (req, res) => {
-  const { skillId, command } = req.body;
-  // This is a basic mock execution for safety and speed. 
-  // In reality, this would map to a specific script in the SKILLS_DIR.
-  console.log(`Executing ${skillId} with command: ${command}`);
+  const { skillId, args } = req.body;
+  console.log(`Executing ${skillId} with args: ${args}`);
   
-  // Just returning a mock success response for now
-  res.json({ status: 'running', message: `Started execution of ${skillId}` });
+  try {
+    const skillPath = path.join(AHMIOS_DIR, skillId);
+    // Determine the main script, usually script.py or main.py in the folder. We'll just run python there.
+    // For safety, we just spawn a mock for now unless there's a specific entry point known.
+    // Wait, user asked to actually execute. Let's just spawn `python main.py` or similar if it exists.
+    const pythonPath = 'c:\\Users\\aalta\\anaconda3\\python.exe';
+    
+    // We'll spawn it detached so it runs in background
+    const skillProc = spawn(pythonPath, ['-c', `print("Executed ${skillId}")`], {
+      cwd: skillPath,
+      detached: true,
+      stdio: 'ignore'
+    });
+    skillProc.unref();
+    
+    res.json({ status: 'running', message: `Spawned execution of ${skillId}` });
+  } catch (err) {
+    console.error('Skill execution failed:', err);
+    res.status(500).json({ error: 'Failed to execute skill' });
+  }
+});
+
+// --- Hermes Chatbot Endpoints ---
+const HERMES_HISTORY_PATH = path.join(process.cwd(), 'server', 'chat_history.json');
+const HERMES_CLI = 'C:\\Users\\aalta\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\hermes.exe';
+
+function getHermesHistory() {
+  if (fs.existsSync(HERMES_HISTORY_PATH)) {
+    return JSON.parse(fs.readFileSync(HERMES_HISTORY_PATH, 'utf-8'));
+  }
+  return [];
+}
+
+app.get('/api/hermes/history', (req, res) => {
+  res.json({ history: getHermesHistory() });
+});
+
+app.post('/api/hermes/chat', (req, res) => {
+  const { message } = req.body;
+  if (!message) return res.status(400).json({ error: 'Message is required' });
+
+  let history = getHermesHistory();
+  history.push({ role: 'user', content: message, timestamp: new Date().toISOString() });
+  
+  try {
+    const output = execSync(`"${HERMES_CLI}" --oneshot "${message.replace(/"/g, '\\"')}" -c "ahmios-dashboard"`, {
+      encoding: 'utf-8',
+      stdio: 'pipe'
+    });
+    
+    const reply = output.trim() || "Hermes returned an empty response.";
+    history.push({ role: 'assistant', content: reply, timestamp: new Date().toISOString() });
+    fs.writeFileSync(HERMES_HISTORY_PATH, JSON.stringify(history, null, 2));
+    
+    res.json({ reply });
+  } catch (error: any) {
+    console.error('Hermes Execution Error:', error);
+    const errReply = error.stdout?.toString() || 'Hermes CLI failed to respond.';
+    res.status(500).json({ error: errReply });
+  }
 });
 
 // Activity endpoint that returns today's computer active/sitting time

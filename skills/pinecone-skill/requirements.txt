@@ -1,0 +1,3 @@
+pinecone-client
+google-generativeai
+python-dotenv

@@ -1,0 +1,109 @@
+{
+  "apify~instagram-reel-scraper": {
+    "status": "SUCCEEDED",
+    "item_count": 1,
+    "first_item": {
+      "id": "3882513549701297647",
+      "type": "Video",
+      "shortCode": "DXhdYDFljXv",
+      "caption": "This tool utilizes many technologies -- Alpaca API (paid), YAHOO News API, Trading View API, and more. \n\n#markerMovers #tickers #gappers #gapandgo #momentumTrading",
+      "hashtags": [
+        "markerMovers",
+        "tickers",
+        "gappers",
+        "gapandgo",
+        "momentumTrading"
+      ],
+      "mentions": [],
+      "url": "https://www.instagram.com/p/DXhdYDFljXv/",
+      "commentsCount": 0,
+      "dimensionsHeight": 1137,
+      "dimensionsWidth": 640,
+      "images": [
+        "https://scontent-lga3-3.cdninstagram.com/v/t51.82787-15/671774575_17946234993148244_6211648239404702161_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzg4MjUxMzU0OTcwMTI5NzY0NzE3OTQ2MjM0OTkwMTQ4MjQ0.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjU0MC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=cOl6Sr3lKUsQ7kNvwHL2hJg&_nc_oc=AdqMkFEvWJBcY9Thr60Do0v8Bo5XLAe3tyNRVd23fxtGx3kPaRS8JNysUPzZZ2g6xZQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-lga3-3.cdninstagram.com&_nc_gid=5GRWf1nt7QjUTFyJXBp1hQ&_nc_ss=7a3ba&oh=00_Af5Nc9gAvY-2bICdEhO6bRQhchXx988SGzBPSF4WpASNXw&oe=6A03A159",
+        "https://scontent-lga3-3.cdninstagram.com/v/t51.82787-15/671774575_17946234993148244_6211648239404702161_n.jpg?stp=dst-jpg_e15_p320x320_tt6&_nc_cat=104&ig_cache_key=Mzg4MjUxMzU0OTcwMTI5NzY0NzE3OTQ2MjM0OTkwMTQ4MjQ0.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjU0MC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=cOl6Sr3lKUsQ7kNvwHL2hJg&_nc_oc=AdqMkFEvWJBcY9Thr60Do0v8Bo5XLAe3tyNRVd23fxtGx3kPaRS8JNysUPzZZ2g6xZQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-lga3-3.cdninstagram.com&_nc_gid=5GRWf1nt7QjUTFyJXBp1hQ&_nc_ss=7a3ba&oh=00_Af5i6fPVorCjEjbveEHw7wmNHHTukMdn32-sT2Y55hntmA&oe=6A03A159"
+      ],
+      "videoUrl": "https://scontent-sjc6-1.cdninstagram.com/o1/v/t16/f2/m86/AQMPnjam5GcVK5jAWhDjur_oZtlu-hxg0yPu35RbdGDaRtuzdUL6_Mexime4yqUBvPkUTJnwBkTlhNy5NfEduqBhh9INntlYB1jKFqA.mp4?stp=dst-mp4&efg=eyJxZV9ncm91cHMiOiJbXCJpZ193ZWJfZGVsaXZlcnlfdnRzX290ZlwiXSIsInZlbmNvZGVfdGFnIjoidnRzX3ZvZF91cmxnZW4uY2xpcHMuYzIuNzIwLmJhc2VsaW5lIn0&_nc_cat=111&vs=2117933595665680_781781456&_nc_vs=HBksFQIYUmlnX3hwdl9yZWVsc19wZXJtYW5lbnRfc3JfcHJvZC9BOTQ1MjUzNURDRTIzQ0I2RDlGMzcyRTE1QzA5QTY5NV92aWRlb19kYXNoaW5pdC5tcDQVAALIARIAFQIYUWlnX3hwdl9wbGFjZW1lbnRfcGVybWFuZW50X3YyLzdDNDJCNkE1QjhGMDQzNjQ0RUYwRDVGNTc2Q0I2OTg1X2F1ZGlvX2Rhc2hpbml0Lm1wNBUCAsgBEgAoABgAGwAVAAAmsJ7Etozo2z8VAigCQzMsF0Bdap%2B%2Bdsi0GBJkYXNoX2Jhc2VsaW5lXzFfdjERAHX%2BB2XmnQEA&_nc_rid=67098da7a5&ccb=9-4&oh=00_Af5sfO8REn41Hr3iN7Kh7qL3n_GTj4JHGgeuvVM5kTGQog&oe=69FFE306&_nc_sid=10d13b",
+      "likesCount": 9,
+      "timestamp": "2026-04-24T17:31:37.000Z",
+      "ownerFullName": "Ａ 🅷 𝐌 𝐈",
+      "ownerUsername": "ahmi.x012",
+      "ownerId": "64527324243",
+      "isPinned": false,
+      "productType": "clips",
+      "videoDuration": 117.666,
+      "inputUrl": "https://www.instagram.com/ahmi.x012",
+      "firstComment": "",
+      "latestComments": [],
+      "displayUrl": "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-15/671774575_17946234993148244_6211648239404702161_n.jpg?stp=dst-jpg_e15_tt6&_nc_ht=scontent-sjc6-1.cdninstagram.com&_nc_cat=108&_nc_oc=Q6cZ2gFQDKapGe7cEBSZ-F1DNV_VNMH-jGQ1Rs2HtcWOsxnEPmHjWQgsla_j83aijfrDXWc&_nc_ohc=lz0Pe7_pI24Q7kNvwFiIt9P&_nc_gid=Ocvof7s658gdPg1pkxxOnw&edm=APs17CUBAAAA&ccb=7-5&oh=00_Af5WEXSatV0MTogSOvVdKLVf3bST9-R84p7freTxYpSUcQ&oe=6A03A159&_nc_sid=10d13b",
+      "audioUrl": "https://scontent-sjc6-1.cdninstagram.com/o1/v/t2/f2/m78/AQOhJUbzw4nuZ85ZhSsocUOKyBpmYrdV_j9hkHgPbDlkFDmU5S22L5AZyu8OcXIjakzcmYaFqQ9E6Vhvc5ZXn8SXERVraxlgNL1zOwI.mp4?_nc_cat=107&_nc_sid=9ca052&_nc_ht=scontent-sjc6-1.cdninstagram.com&_nc_ohc=YZbV2z4JgSkQ7kNvwG0Fi67&efg=eyJ2ZW5jb2RlX3RhZyI6ImlnLXhwdmRzLmNsaXBzLmMyLUMzLmRhc2hfbG5faGVhYWNfdmJyM19hdWRpbyIsInZpZGVvX2lkIjpudWxsLCJvaWxfdXJsZ2VuX2FwcF9pZCI6OTM2NjE5NzQzMzkyNDU5LCJjbGllbnRfbmFtZSI6ImlnIiwieHB2X2Fzc2V0X2lkIjoxNzkzNDgyMzAyNjIxNjUzNiwiYXNzZXRfYWdlX2RheXMiOjEzLCJ2aV91c2VjYXNlX2lkIjoxMDA5OSwiZHVyYXRpb25fcyI6MTE3LCJiaXRyYXRlIjo4MzE2NiwidXJsZ2VuX3NvdXJjZSI6Ind3dyJ9&ccb=17-1&_nc_gid=Ocvof7s658gdPg1pkxxOnw&_nc_zt=28&_nc_ss=7a22e&oh=00_Af6YBPRVeOp_cL8c4kisIC8x1YN3NXuP2nmZJimxuBsiVQ&oe=69FFD6CC",
+      "alt": null,
+      "videoViewCount": 81,
+      "videoPlayCount": 300,
+      "childPosts": [],
+      "musicInfo": {
+        "artist_name": "ahmi.x012",
+        "song_name": "Original audio",
+        "uses_original_audio": true,
+        "should_mute_audio": false,
+        "should_mute_audio_reason": "",
+        "audio_id": "26969664969307060"
+      },
+      "isCommentsDisabled": false
+    }
+  },
+  "apify~instagram-tagged-scraper": {
+    "status": "SUCCEEDED",
+    "item_count": 2,
+    "first_item": {
+      "inputUrl": "https://www.instagram.com/ahmi.x012",
+      "id": "3715381961380920160",
+      "type": "Image",
+      "shortCode": "DOPsDV9APtg",
+      "caption": "Freedom, comfort, and adventure—built into four wheels and a wooden frame. 🚐✨\nA space for stories, escapes, and endless roads ahead.\n\n#VanLife #HomeOnWheels #FreedomToRoam #RoadLiving #VanGoals #altayvan",
+      "hashtags": [
+        "VanLife",
+        "HomeOnWheels",
+        "FreedomToRoam",
+        "RoadLiving",
+        "VanGoals",
+        "altayvan"
+      ],
+      "mentions": [],
+      "url": "https://www.instagram.com/p/DOPsDV9APtg/",
+      "commentsCount": 1,
+      "firstComment": "",
+      "latestComments": [],
+      "dimensionsHeight": 1440,
+      "dimensionsWidth": 1440,
+      "displayUrl": "https://scontent-sjc3-1.cdninstagram.com/v/t51.82787-15/540650780_17846504688559192_3189235806110503_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=MzcxNTM4MTk2MTM4MDkyMDE2MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=rbzGIuExqJgQ7kNvwGqvOqW&_nc_oc=AdrbHQ6FdPDjZ_snkM8eYtz4FYVVkUvWASfNFeXe4yDghfp_3I9lGpyRro7vkbPupmo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&se=8&_nc_ht=scontent-sjc3-1.cdninstagram.com&_nc_gid=DDNs1vmHvkOwdeDcuWbx0Q&_nc_ss=7a3ba&oh=00_Af4EEbBWN22Z19gCkCKrP3gD-ORcUuA4RByTK1QdQxRsLw&oe=6A03B4F0",
+      "images": [],
+      "likesCount": 3,
+      "videoPlayCount": 0,
+      "timestamp": "2025-09-06T03:07:45.000Z",
+      "childPosts": [],
+      "ownerFullName": "",
+      "ownerUsername": "altay.van",
+      "ownerId": "76710775191",
+      "productType": "feed",
+      "taggedUsers": [
+        {
+          "full_name": "Ａ 🅷 𝐌 𝐈",
+          "id": "64527324243",
+          "is_private": false,
+          "is_verified": false,
+          "profile_pic_url": "https://scontent-sjc6-1.cdninstagram.com/v/t51.82787-19/609156913_17932158213148244_9156052626582944306_n.jpg?stp=dst-jpg_e0_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDI0LmMyIn0&_nc_ht=scontent-sjc6-1.cdninstagram.com&_nc_cat=108&_nc_oc=Q6cZ2gEe38XYD1SusQRafgZ4jr8Qj2kUJg6d7-uJLxjCkc4oHEMJuxdOTbfY84AEnJsWo50&_nc_ohc=4jje5Sx9-g8Q7kNvwH91rNt&_nc_gid=DDNs1vmHvkOwdeDcuWbx0Q&edm=APGXKFABAAAA&ccb=7-5&ig_cache_key=GDH-TiRUzlnwM7U-ADI6QmBa1RB-bmNDAQAB1501500j-ccb7-5&oh=00_Af5PuTJJVe1J97wjryJVvGMMXywqwEmgFzrRXqalc8EMsA&oe=6A03A51B&_nc_sid=a8b8e2",
+          "profile_pic_url_hd": null,
+          "username": "ahmi.x012"
+        }
+      ],
+      "musicInfo": {
+        "audio_canonical_id": "0",
+        "audio_type": null,
+        "music_info": null,
+        "original_sound_info": null,
+        "pinned_media_ids": null
+      }
+    }
+  }
+}
