@@ -13,6 +13,11 @@ const app = express();
 const port = process.env.PORT || 3001;
 const parser = new Parser();
 
+app.use((req, res, next) => {
+  // Required for modern browsers (Chrome 104+) to allow public sites to fetch from localhost
+  res.header('Access-Control-Allow-Private-Network', 'true');
+  next();
+});
 app.use(cors());
 app.use(express.json());
 
@@ -168,7 +173,7 @@ app.get('/api/hermes/history', (req, res) => {
   res.json({ history: getHermesHistory() });
 });
 
-app.post('/api/hermes/chat', (req, res) => {
+app.post('/api/hermes/chat', async (req, res) => {
   const { message } = req.body;
   if (!message) return res.status(400).json({ error: 'Message is required' });
 
@@ -176,20 +181,44 @@ app.post('/api/hermes/chat', (req, res) => {
   history.push({ role: 'user', content: message, timestamp: new Date().toISOString() });
   
   try {
-    const output = execSync(`"${HERMES_CLI}" --oneshot "${message.replace(/"/g, '\\"')}" -c "ahmios-dashboard"`, {
-      encoding: 'utf-8',
-      stdio: 'pipe'
+    const reply = await new Promise((resolve, reject) => {
+      const child = spawn(HERMES_CLI, ['--oneshot', message, '-c', 'ahmios-dashboard'], {
+        stdio: ['ignore', 'pipe', 'pipe']
+      });
+
+      let output = '';
+      let errorOutput = '';
+
+      child.stdout.on('data', (data) => output += data.toString());
+      child.stderr.on('data', (data) => errorOutput += data.toString());
+
+      const timeoutId = setTimeout(() => {
+        try { child.kill('SIGKILL'); } catch (e) {}
+        reject(new Error('Hermes timed out after 30 seconds. (Possible API Key issue)'));
+      }, 30000);
+
+      child.on('close', (code) => {
+        clearTimeout(timeoutId);
+        if (code !== 0 && code !== null) {
+          reject(new Error(errorOutput || `Hermes exited with code ${code}`));
+        } else {
+          resolve(output.trim() || "Hermes returned an empty response.");
+        }
+      });
+      
+      child.on('error', (err) => {
+        clearTimeout(timeoutId);
+        reject(err);
+      });
     });
-    
-    const reply = output.trim() || "Hermes returned an empty response.";
+
     history.push({ role: 'assistant', content: reply, timestamp: new Date().toISOString() });
     fs.writeFileSync(HERMES_HISTORY_PATH, JSON.stringify(history, null, 2));
     
     res.json({ reply });
   } catch (error: any) {
     console.error('Hermes Execution Error:', error);
-    const errReply = error.stdout?.toString() || 'Hermes CLI failed to respond.';
-    res.status(500).json({ error: errReply });
+    res.status(500).json({ error: error.message || 'Hermes CLI failed to respond.' });
   }
 });
 
