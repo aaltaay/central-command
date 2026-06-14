@@ -53,7 +53,7 @@ export default function App() {
   return (
     <div className="dashboard-grid">
       {/* Sidebar */}
-      <aside className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <aside className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '20px', height: '100%', minHeight: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <Terminal size={28} color="var(--accent)" />
           <div>
@@ -85,7 +85,7 @@ export default function App() {
       </aside>
 
       {/* Main Content Area */}
-      <main style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', overflowY: 'auto', paddingRight: '10px' }}>
+      <main style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', overflowY: 'auto', paddingRight: '10px', height: '100%', minHeight: 0 }}>
         <ActivityWidget mockMode={mockMode} />
         <ArsenalWidget mockMode={mockMode} />
         <RadarWidget mockMode={mockMode} />
@@ -93,7 +93,7 @@ export default function App() {
       </main>
 
       {/* Right Sidebar - Hermes Chat */}
-      <aside className="glass-panel" style={{ padding: '1rem', display: 'flex', flexDirection: 'column' }}>
+      <aside className="glass-panel" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
         <HermesChatWidget mockMode={mockMode} />
       </aside>
     </div>
@@ -183,26 +183,47 @@ function HermesChatWidget({ mockMode }: { mockMode: boolean }) {
       </div>
       
       <div className="chat-history" ref={scrollRef}>
-        {history.length === 0 && <p style={{ color: 'var(--text-muted)', fontSize: '14px', textAlign: 'center' }}>No history found.</p>}
+        {history.length === 0 && (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', gap: '10px' }}>
+            <MessageSquare size={32} style={{ color: 'var(--text-muted)', opacity: 0.5 }} />
+            <p style={{ color: 'var(--text-muted)', fontSize: '14px', textAlign: 'center', margin: 0 }}>No uplink history found.</p>
+          </div>
+        )}
         {history.map((msg, i) => (
           <div key={i} className={`chat-msg ${msg.role === 'user' ? 'user' : 'hermes'}`}>
-            <span style={{ fontSize: '13px', whiteSpace: 'pre-wrap' }}>{msg.content}</span>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2px' }}>
+              {msg.role === 'user' ? (
+                <span style={{ fontSize: '10px', color: 'rgba(255, 255, 255, 0.6)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.05em' }}>You</span>
+              ) : (
+                <span style={{ fontSize: '10px', color: 'var(--accent)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <Sparkles size={10} /> Hermes
+                </span>
+              )}
+            </div>
+            <span style={{ fontSize: '13.5px', whiteSpace: 'pre-wrap' }}>{msg.content}</span>
           </div>
         ))}
         {loading && (
-          <div className="chat-msg hermes" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <div className="loading-dot" style={{ width: '8px', height: '8px', background: 'var(--accent)', borderRadius: '50%' }}></div>
-              <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Thinking...</span>
+          <div className="chat-msg hermes" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: '10px', color: 'var(--accent)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <Sparkles size={10} /> Hermes
+              </span>
+              <button 
+                className="btn-secondary" 
+                style={{ padding: '1px 6px', fontSize: '9px', color: 'var(--danger)', cursor: 'pointer', border: '1px solid var(--danger)', borderRadius: '4px' }}
+                onClick={stopThinking}
+                type="button"
+              >
+                STOP
+              </button>
             </div>
-            <button 
-              className="btn-secondary" 
-              style={{ padding: '2px 8px', fontSize: '10px', color: 'var(--danger)', cursor: 'pointer', border: '1px solid var(--danger)' }}
-              onClick={stopThinking}
-              type="button"
-            >
-              STOP
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
+              <div className="loading-dot" style={{ width: '6px', height: '6px', background: 'var(--accent)', borderRadius: '50%' }}></div>
+              <div className="loading-dot" style={{ width: '6px', height: '6px', background: 'var(--accent)', borderRadius: '50%', animationDelay: '0.2s' }}></div>
+              <div className="loading-dot" style={{ width: '6px', height: '6px', background: 'var(--accent)', borderRadius: '50%', animationDelay: '0.4s' }}></div>
+              <span style={{ fontSize: '12px', color: 'var(--text-muted)', marginLeft: '4px' }}>Thinking...</span>
+            </div>
           </div>
         )}
       </div>
@@ -214,8 +235,8 @@ function HermesChatWidget({ mockMode }: { mockMode: boolean }) {
           value={input}
           onChange={e => setInput(e.target.value)}
         />
-        <button type="submit" className="btn-primary" style={{ padding: '0 1rem' }} disabled={loading}>
-          <Send size={18} />
+        <button type="submit" className="btn-primary" style={{ padding: '0 0.75rem', borderRadius: '8px' }} disabled={loading}>
+          <Send size={16} />
         </button>
       </form>
     </div>
