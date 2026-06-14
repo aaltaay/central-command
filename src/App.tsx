@@ -3,7 +3,7 @@ import { Terminal, Activity, Globe, ShieldAlert, LogOut, Code, Play, Clock, Spar
 import './index.css';
 
 const AUTH_KEY = 'central_command_auth';
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = import.meta.env.VITE_API_URL || 'https://api.ahmios.altaystudio.com';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => localStorage.getItem(AUTH_KEY) === 'true');
@@ -235,7 +235,7 @@ function ArsenalWidget({ mockMode }: { mockMode: boolean }) {
     }
     fetch(`${API_URL}/api/skills`)
       .then(res => res.json())
-      .then(data => setSkills(data.skills))
+      .then(data => setSkills(data.skills || []))
       .catch(console.error);
   }, [mockMode]);
 
