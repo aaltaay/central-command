@@ -160,7 +160,8 @@ app.post('/api/skills/run', (req, res) => {
 
 // --- Hermes Chatbot Endpoints ---
 const HERMES_HISTORY_PATH = path.join(process.cwd(), 'server', 'chat_history.json');
-const HERMES_CLI = 'C:\\Users\\aalta\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\hermes.exe';
+const HERMES_API_URL = process.env.HERMES_API_URL || 'http://127.0.0.1:8642';
+const HERMES_API_KEY = process.env.HERMES_API_KEY || 'ahmios-central-command';
 
 function getHermesHistory() {
   if (fs.existsSync(HERMES_HISTORY_PATH)) {
@@ -181,44 +182,46 @@ app.post('/api/hermes/chat', async (req, res) => {
   history.push({ role: 'user', content: message, timestamp: new Date().toISOString() });
   
   try {
-    const reply = await new Promise((resolve, reject) => {
-      const child = spawn(HERMES_CLI, ['--oneshot', message, '-c', 'ahmios-dashboard'], {
-        stdio: ['ignore', 'pipe', 'pipe']
-      });
+    // Use Hermes's built-in OpenAI-compatible API server
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 60000);
 
-      let output = '';
-      let errorOutput = '';
-
-      child.stdout.on('data', (data) => output += data.toString());
-      child.stderr.on('data', (data) => errorOutput += data.toString());
-
-      const timeoutId = setTimeout(() => {
-        try { child.kill('SIGKILL'); } catch (e) {}
-        reject(new Error('Hermes timed out after 30 seconds. (Possible API Key issue)'));
-      }, 30000);
-
-      child.on('close', (code) => {
-        clearTimeout(timeoutId);
-        if (code !== 0 && code !== null) {
-          reject(new Error(errorOutput || `Hermes exited with code ${code}`));
-        } else {
-          resolve(output.trim() || "Hermes returned an empty response.");
-        }
-      });
-      
-      child.on('error', (err) => {
-        clearTimeout(timeoutId);
-        reject(err);
-      });
+    const response = await fetch(`${HERMES_API_URL}/v1/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${HERMES_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'hermes-agent',
+        messages: [{ role: 'user', content: message }]
+      }),
+      signal: controller.signal
     });
+
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Hermes API returned ${response.status}: ${errText}`);
+    }
+
+    const data = await response.json();
+    const reply = data.choices?.[0]?.message?.content?.trim() || 'Hermes returned an empty response.';
 
     history.push({ role: 'assistant', content: reply, timestamp: new Date().toISOString() });
     fs.writeFileSync(HERMES_HISTORY_PATH, JSON.stringify(history, null, 2));
     
     res.json({ reply });
   } catch (error: any) {
-    console.error('Hermes Execution Error:', error);
-    res.status(500).json({ error: error.message || 'Hermes CLI failed to respond.' });
+    console.error('Hermes API Error:', error);
+    if (error.name === 'AbortError') {
+      res.status(504).json({ error: 'Hermes timed out after 60 seconds.' });
+    } else if (error.cause?.code === 'ECONNREFUSED') {
+      res.status(503).json({ error: 'Hermes gateway is not running. Start it with: hermes gateway run' });
+    } else {
+      res.status(500).json({ error: error.message || 'Hermes API failed to respond.' });
+    }
   }
 });
 
