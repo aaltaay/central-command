@@ -162,6 +162,7 @@ app.post('/api/skills/run', (req, res) => {
 const HERMES_HISTORY_PATH = path.join(process.cwd(), 'server', 'chat_history.json');
 const HERMES_API_URL = process.env.HERMES_API_URL || 'http://127.0.0.1:8642';
 const HERMES_API_KEY = process.env.HERMES_API_KEY || 'ahmios-central-command';
+const HERMES_MODEL = process.env.HERMES_MODEL || 'hermes-agent';
 
 function getHermesHistory() {
   if (fs.existsSync(HERMES_HISTORY_PATH)) {
@@ -193,7 +194,7 @@ app.post('/api/hermes/chat', async (req, res) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'hermes-agent',
+        model: HERMES_MODEL,
         messages: [{ role: 'user', content: message }]
       }),
       signal: controller.signal
