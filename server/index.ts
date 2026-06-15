@@ -231,7 +231,7 @@ app.post('/api/hermes/chat', async (req, res) => {
   try {
     // Use Hermes's built-in OpenAI-compatible API server
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 60000);
+    const timeout = setTimeout(() => controller.abort(), 300000);
 
     // Format history for OpenAI chat completions format (role and content only)
     const formattedMessages = history.map((msg: any) => ({
